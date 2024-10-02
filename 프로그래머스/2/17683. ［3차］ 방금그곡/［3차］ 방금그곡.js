@@ -11,12 +11,12 @@ const getTimeDiff = (startTime, endTime) => {
 const isInScores = (splitm, splits, playingTime) => {
   // score가 늘 더 길음 왜냐면 재생시간만큼 스코어를 늘리고
   // m이 재생시간보다 짧으면 (None) 반환하므로
-  const repeatedOrigin = Array.from(
+  const repeatedScores = Array.from(
     { length: playingTime },
     (_, i) => splits[i % splits.length]
   );
 
-  const startIdx = repeatedOrigin.reduce((arr, item, idx) => {
+  const startIdx = repeatedScores.reduce((arr, item, idx) => {
     if (item === splitm[0]) {
       arr.push(idx);
     }
@@ -25,7 +25,7 @@ const isInScores = (splitm, splits, playingTime) => {
 
   const found = startIdx.some((idx) => {
     return (
-      repeatedOrigin.slice(idx, idx + splitm.length).join("") ===
+      repeatedScores.slice(idx, idx + splitm.length).join("") ===
       splitm.join("")
     );
   });
