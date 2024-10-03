@@ -1,20 +1,21 @@
-const fs = require("fs");
-const stdin = (
-  process.platform === "linux"
-    ? fs.readFileSync("/dev/stdin").toString()
-    : `` // 기본 입력값 설정 (백준 코딩테스트에서 비워놔도 무방하다.)
-).split("\n");
+function solution(input) {
+  const [total, win] = input.map((v) => Number(v));
+  const winRate = Math.floor((win * 100) / total); // 현재 승률을 계산
 
-const input = (() => {  //input()을 호출할 때마다 한줄씩 읽어온다.
-  let line = 0;
-  return () => stdin[line++];
-})(); 
-const [total, win] = input().split(' ').map(value => Number(value));
-const winningRate = Math.floor(win*100/total);
-if(winningRate >= 99) {
+  // 승률이 99% 이상인 경우
+  if (winRate >= 99) {
     console.log(-1);
-}else {
-    const targetWinningRate = winningRate + 1;
-    let result = (100 * win - (targetWinningRate*total)) / (targetWinningRate - 100);
-    console.log(Math.ceil(result));
+    return;
+  }
+
+  const targetWinRate = winRate + 1;
+  const result = (targetWinRate * total - 100 * win) / (100 - targetWinRate);
+
+  console.log(Math.ceil(result));
 }
+
+const fs = require("fs");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "1072/input.txt";
+const input = fs.readFileSync(filePath).toString().trim().split(" ");
+
+solution(input);
