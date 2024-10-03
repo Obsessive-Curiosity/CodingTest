@@ -1,12 +1,3 @@
 function solution(n) {
-  let cnt = 1;
-  while (n > 1) {
-    if (n % 2 === 0) {
-      n /= 2;
-    } else {
-      n -= 1;
-      cnt += 1;
-    }
-  }
-  return cnt;
+  return n.toString(2).match(/1/g).length;
 }
