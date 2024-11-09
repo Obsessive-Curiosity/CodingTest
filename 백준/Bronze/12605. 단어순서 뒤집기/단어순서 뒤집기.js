@@ -1,18 +1,29 @@
+function reversedFunc(string) {
+  const splited = string.split(" ");
+  const reversed = [];
+
+  while (splited.length > 0) {
+    reversed.push(splited.pop());
+  }
+
+  return reversed;
+}
+
 function solution(input) {
   const N = input.shift();
   const strings = input;
   const result = [];
 
   strings.forEach((string, index) => {
-    const reversedArray = string.split(" ").reverse();
-    result.push(`Case #${index + 1}: ${reversedArray.join(" ")}`);
+    const reversedString = reversedFunc(string).join(" ");
+    result[index] = `Case #${index + 1}: ${reversedString}`;
   });
 
   console.log(result.join("\n"));
 }
 
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "241109.txt";
+const filePath = "/dev/stdin";
 const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
 solution(input);
