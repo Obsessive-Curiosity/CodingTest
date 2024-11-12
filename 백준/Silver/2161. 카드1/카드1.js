@@ -1,12 +1,11 @@
 function shake(cards) {
   const result = [];
 
-  while (cards.length > 1) {
+  while (true) {
     result.push(cards.pop()); // 제일 위에 있는 카드를 바닥에 버린다.
+    if (cards.length < 1) break;
     cards.unshift(cards.pop()); // 제일 위에 있는 카드를 제일 아래에 있는 카드 밑으로 옮긴다.
   }
-
-  result.push(cards.pop());
 
   return result.join(" ");
 }
@@ -20,7 +19,7 @@ function solution(input) {
 }
 
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "241112.txt";
+const filePath = "/dev/stdin";
 const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
 solution(input);
