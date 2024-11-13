@@ -19,9 +19,7 @@ function countSkills(skills) {
 function solution(input) {
   const N = Number(input.shift());
   const skills = input.shift();
-  const numberSkills = [];
-  const SKSkills = [];
-  const LRSkills = [];
+  const [numSkills, SKSkills, LRSkills] = [[], [], []];
   let [scnt, kcnt, lcnt, rcnt] = [0, 0, 0, 0];
   let count = 0;
 
@@ -47,11 +45,11 @@ function solution(input) {
         break;
       }
     } else {
-      numberSkills.push(skill);
+      numSkills.push(skill);
     }
   }
 
-  count = numberSkills.length;
+  count = numSkills.length;
   count += countSkills(SKSkills);
   count += countSkills(LRSkills);
 
@@ -59,7 +57,7 @@ function solution(input) {
 }
 
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "241113.txt";
+const filePath = "/dev/stdin";
 const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
 solution(input);
