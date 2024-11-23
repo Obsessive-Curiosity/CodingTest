@@ -8,7 +8,7 @@ class MinHeap {
   }
 
   getMin() {
-    return this.heap[1] ? this.heap[1] : null;
+    return this.heap[1] || null;
   }
 
   swap(a, b) {
@@ -18,59 +18,65 @@ class MinHeap {
   heappush(value) {
     this.heap.push(value);
     let curIdx = this.heap.length - 1;
-    let parIdx = (curIdx / 2) >> 0;
+    let parIdx = Math.floor(curIdx / 2);
 
     while (curIdx > 1 && this.heap[parIdx] > this.heap[curIdx]) {
       this.swap(parIdx, curIdx);
       curIdx = parIdx;
-      parIdx = (curIdx / 2) >> 0;
+      parIdx = Math.floor(curIdx / 2);
     }
   }
 
   heappop() {
-    const min = this.heap[1];
-    if (this.heap.length <= 2) this.heap = [null];
-    else this.heap[1] = this.heap.pop();
+    const min = this.heap[1] ?? 0;
 
-    let curIdx = 1;
-    let leftIdx = curIdx * 2;
-    let rightIdx = curIdx * 2 + 1;
-
-    if (!this.heap[leftIdx]) return min;
-    if (!this.heap[rightIdx]) {
-      if (this.heap[leftIdx] < this.heap[curIdx]) {
-        this.swap(leftIdx, curIdx);
-      }
-      return min;
-    }
-
-    while (
-      this.heap[leftIdx] < this.heap[curIdx] ||
-      this.heap[rightIdx] < this.heap[curIdx]
-    ) {
-      const minIdx =
-        this.heap[leftIdx] > this.heap[rightIdx] ? rightIdx : leftIdx;
-      this.swap(minIdx, curIdx);
-      curIdx = minIdx;
-      leftIdx = curIdx * 2;
-      rightIdx = curIdx * 2 + 1;
+    if (this.size() > 1) {
+      this.heap[1] = this.heap.pop();
+      this.heapify(1);
+    } else {
+      this.heap = [null];
     }
 
     return min;
   }
+
+  heapify(idx) {
+    let leftIdx = idx * 2;
+    let rightIdx = idx * 2 + 1;
+    let smallest = idx;
+
+    if (
+      leftIdx < this.heap.length &&
+      this.heap[leftIdx] < this.heap[smallest]
+    ) {
+      smallest = leftIdx;
+    }
+
+    if (
+      rightIdx < this.heap.length &&
+      this.heap[rightIdx] < this.heap[smallest]
+    ) {
+      smallest = rightIdx;
+    }
+
+    if (smallest !== idx) {
+      this.swap(idx, smallest);
+      this.heapify(smallest);
+    }
+  }
 }
 
 function solution(input) {
-  const N = input.shift();
+  const N = Number(input.shift());
   const array = input.map(Number);
   const heap = new MinHeap();
   const result = [];
 
   for (const num of array) {
-    if (num === 0) {
-      result.push(heap.heappop() ?? 0);
-    } else {
+    if (num) {
       heap.heappush(num);
+    } else {
+      result.push(heap.heappop());
     }
   }
 
@@ -78,7 +84,7 @@ function solution(input) {
 }
 
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "241115.txt";
+const filePath = process.platform === "linux" ? "/dev/stdin" : "1927/input.txt";
 const input = fs.readFileSync(filePath).toString().trim().split("\n");
 
 solution(input);
