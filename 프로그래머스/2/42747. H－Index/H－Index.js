@@ -1,14 +1,9 @@
 function solution(citations) {
   citations.sort((a, b) => b - a);
-  let h_index = citations[0] ? citations.length : 0;
 
-  citations.forEach((citation, index) => {
-    const [current, next] = [citation, citations[index + 1]];
-    const value = index + 1;
-    if (current >= value && next <= value) {
-      h_index = value;
-    }
-  });
+  for (let i = 0; i < citations.length; i++) {
+    if (citations[i] < i + 1) return i;
+  }
 
-  return h_index;
+  return citations.length;
 }
